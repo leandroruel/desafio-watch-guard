@@ -1,122 +1,87 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from "react";
+import TodoCard from "./TodoCard";
+import type { Todo } from "./types"
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [todos, setTodos] = useState<Todo[]>(() => {
+      const savedTodos = localStorage.getItem("todos");
+      return savedTodos ? JSON.parse(savedTodos) : [];
+    });
+    const [task, setTask] = useState<string>("");
+    const [search, setSearch] = useState("");
+
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTask(event.target.value);
+    };
+
+    const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (task.trim().length === 0) {
+        alert("Please enter a value!");
+        return;
+    }
+
+    const todo: Todo = {
+        id: Date.now(),
+        title: task.trim(),
+        description: "",
+        created_at: Date.now(),
+        completed: false,
+    };
+
+    setTodos([todo, ...todos]);
+    setTask("");
+};
+
+const handleChangeChecked = (todo: Todo) => {
+  setTodos(
+      todos.map((item) =>
+          item.id === todo.id
+              ? { ...item, completed: !item.completed }
+              : item
+      )
+  );
+};
+
+const handleDelete = (id: number) => {
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos.splice(index, 1);
+    setTodos([...todos]);
+};
+
+const filtered = todos.filter((todo) =>
+    todo.title.toLowerCase().includes(search.toLowerCase())
+);
+
+useEffect(() => {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}, [todos]);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
+      <div className="bg-white">
+          <input
+              type="search"
+              placeholder="Search todos..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+          />
+          <form onSubmit={handleFormSubmit}>
+              <input type="text" name="task" value={task} onChange={handleInput} />
+              <button type="submit">Submit</button>
+          </form>
           <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+              {filtered.map((todo) => (
+                  <TodoCard
+                      key={todo.id}
+                      todo={todo}
+                      onChangeChecked={handleChangeChecked}
+                      onDelete={handleDelete}
+                  />
+              ))}
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </div>
+  );
 }
 
-export default App
+export default App;

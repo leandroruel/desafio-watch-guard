@@ -109,3 +109,23 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.todo-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  list-style: none;
+  margin: 10px 0 0 0;
+  position: relative;
+}
+
+.todo-card input[type=checkbox] {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+}
