@@ -5,6 +5,7 @@ type TodoComposerProps = {
   description: string;
   onChangeTitle: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeDescription: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  isOpen: boolean;
 };
 
 const TodoComposer = ({
@@ -12,9 +13,10 @@ const TodoComposer = ({
   description,
   onChangeTitle,
   onChangeDescription,
+  isOpen,
 }: TodoComposerProps) => {
   return (
-    <div className="todo-composer">
+    <div className={`todo-composer ${isOpen ? "" : "todo-compose--hidden"}`}>
       <div className="todo-composer__container">
         <input
           type="text"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TodoCard from "./TodoCard";
 import type { Todo } from "./types";
+import TodoComposer from "./TodoComposer";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>(() => {
@@ -9,6 +10,8 @@ function App() {
   });
   const [task, setTask] = useState<string>("");
   const [search, setSearch] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [description, setDescription] = useState("");
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTask(event.target.value);
@@ -93,6 +96,14 @@ function App() {
           />
         ))}
       </ul>
+
+      <TodoComposer
+        title={task}
+        description={description}
+        onChangeTitle={(event) => setTask(event.currentTarget.value)}
+        onChangeDescription={(event) => setDescription(event.currentTarget.value)}
+        isOpen={isOpen}
+      />
     </div>
   );
 }
