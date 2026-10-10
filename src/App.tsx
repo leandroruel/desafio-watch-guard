@@ -53,24 +53,29 @@ function App() {
   }, [todos]);
 
   return (
-    <div className="bg-white">
-      <input
-        type="search"
-        placeholder="Buscar tarefas"
-        value={search}
-        onChange={(event) => setSearch(event.target.value)}
-      />
-      <form onSubmit={handleFormSubmit}>
+    <div className="app">
+      <header>
         <input
-          type="text"
-          name="task"
-          value={task}
-          onChange={handleInput}
-          id="task-title"
-          placeholder="Digite uma tarefa"
+          type="search"
+          placeholder="Buscar tarefas"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
         />
-        <button type="submit">Submit</button>
-      </form>
+        <form onSubmit={handleFormSubmit}>
+          <input
+            type="text"
+            name="task"
+            value={task}
+            onChange={handleInput}
+            id="task-title"
+            placeholder="Digite uma tarefa"
+          />
+          <button type="submit">Submit</button>
+        </form>
+        <div className="app-title">
+          <h4>My Todo List</h4>
+        </div>
+      </header>
       <ul>
         {filtered.map((todo) => (
           <TodoCard

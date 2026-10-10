@@ -1,4 +1,5 @@
 import type { Todo } from "./types";
+import DeleteIcon from "./icons/DeleteIcon";
 
 type ToDoCardProps = {
   todo: Todo;
@@ -9,16 +10,15 @@ type ToDoCardProps = {
 const TodoCard = ({ todo, onChangeChecked, onDelete }: ToDoCardProps) => {
   return (
     <li className="todo-card" data-testid={`todo-${todo.id}`}>
-      <h3>{todo.title}</h3>
+      <label className="circle-check">
+        <input type="checkbox" checked={todo.completed} onChange={() => onChangeChecked(todo)} />
+        <span className="circle-check__icon" aria-hidden="true"></span>
+      </label>
 
-      {todo.description && <p>{todo.description}</p>}
-
-      <p>{new Date(todo.created_at).toLocaleString()}</p>
-
-      <input type="checkbox" checked={todo.completed} onChange={() => onChangeChecked(todo)} />
+      <h3 className={todo.completed ? "text-muted" : ""}>{todo.title}</h3>
 
       <button id="delete" onClick={() => onDelete(todo.id)}>
-        Remove
+        <DeleteIcon />
       </button>
     </li>
   );
