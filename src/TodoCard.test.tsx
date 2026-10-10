@@ -24,14 +24,8 @@ it("renders the todo information", async () => {
 
 it("renders a completed todo", async () => {
   await render(
-    <TodoCard
-      todo={{ ...todo, completed: true }}
-      onChangeChecked={vi.fn()}
-      onDelete={vi.fn()}
-    />,
+    <TodoCard todo={{ ...todo, completed: true }} onChangeChecked={vi.fn()} onDelete={vi.fn()} />,
   );
 
-  await expect
-    .element(page.getByText("Começar academia amanhã"))
-    .toBeInTheDocument();
+  await expect.element(page.getByText("Começar academia amanhã")).toBeInTheDocument();
 });
