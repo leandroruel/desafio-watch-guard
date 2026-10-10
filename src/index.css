@@ -212,7 +212,7 @@ ul {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 0.50rem 0.60rem;
+  padding: 0.5rem 0.6rem;
 }
 
 .text-muted {
@@ -223,13 +223,9 @@ ul {
 
 .todo-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 14px;
   list-style: none;
   margin-top: 10px;
   transition:
@@ -267,6 +263,27 @@ ul {
 .todo-card button:hover {
   color: var(--accent);
   background-color: var(--bg);
+}
+
+.todo-card__container {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+}
+
+.todo-card__container--full,
+.todo-card__row {
+  width: 100%;
+}
+
+.todo-card__row {
+  display: flex;
+}
+
+.todo-card__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .circle-check {

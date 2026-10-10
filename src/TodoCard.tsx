@@ -10,16 +10,29 @@ type ToDoCardProps = {
 const TodoCard = ({ todo, onChangeChecked, onDelete }: ToDoCardProps) => {
   return (
     <li className="todo-card" data-testid={`todo-${todo.id}`}>
-      <label className="circle-check">
-        <input type="checkbox" checked={todo.completed} onChange={() => onChangeChecked(todo)} />
-        <span className="circle-check__icon" aria-hidden="true"></span>
-      </label>
+      <div className="todo-card__container todo-card__container--full">
+        <div className="todo-card__row todo-card__title">
+          <label className="circle-check">
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => onChangeChecked(todo)}
+            />
+            <span className="circle-check__icon" aria-hidden="true"></span>
+          </label>
 
-      <h3 className={todo.completed ? "text-muted" : ""}>{todo.title}</h3>
+          <h3 className={todo.completed ? "text-muted" : ""}>{todo.title}</h3>
 
-      <button id="delete" onClick={() => onDelete(todo.id)}>
-        <DeleteIcon />
-      </button>
+          <button test-id="delete" onClick={() => onDelete(todo.id)}>
+            <DeleteIcon />
+          </button>
+        </div>
+        <div className="todo-card__row">
+          {todo.description && (
+            <p className={todo.completed ? "text-muted" : ""}>{todo.description}</p>
+          )}
+        </div>
+      </div>
     </li>
   );
 };

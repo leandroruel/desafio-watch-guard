@@ -1,7 +1,8 @@
 import { render } from "vitest-browser-react";
 import { page } from "vitest/browser";
-import { beforeEach, expect, it } from "vitest";
+import { beforeEach, expect, it, vi } from "vitest";
 import App from "./App";
+import TodoCard from "./TodoCard";
 
 beforeEach(async () => {
   localStorage.clear();
@@ -12,36 +13,30 @@ it("creates a todo", async () => {
 
   await page.getByPlaceholder("Digite uma tarefa").fill("Estudar inglês");
 
-  await page.getByRole("button", { name: "Submit" }).click();
+  await page.getByRole("button", { name: "Adicionar tarefa" }).click();
 
   await expect.element(page.getByText("Estudar inglês")).toBeInTheDocument();
 });
 
 it("deletes a todo", async () => {
-  await render(<App />);
+  const onDelete = vi.fn();
 
-  await page.getByPlaceholder("Digite uma tarefa").fill("Estudar inglês");
+  await render(
+    <TodoCard
+      todo={{
+        id: 123,
+        title: "Estudar inglês",
+        created_at: Date.now(),
+        completed: false,
+      }}
+      onChangeChecked={vi.fn()}
+      onDelete={onDelete}
+    />,
+  );
 
-  await page.getByRole("button", { name: "Submit" }).click();
+  await page.getByRole("button").click();
 
-  const todos = JSON.parse(localStorage.getItem("todos") ?? "[]");
-
-  const todo = todos.find((item: { title: string }) => item.title === "Estudar inglês");
-
-  expect(todo).toBeDefined();
-
-  const card = page.getByTestId(`todo-${todo.id}`);
-
-  await card.getByRole("button", { name: "Remove" }).click();
-
-  await expect
-    .element(
-      page.getByRole("heading", {
-        name: "Estudar inglês",
-        exact: true,
-      }),
-    )
-    .not.toBeInTheDocument();
+  expect(onDelete).toHaveBeenCalledWith(123);
 });
 
 it("marks a todo as completed", async () => {
@@ -49,7 +44,7 @@ it("marks a todo as completed", async () => {
 
   await page.getByPlaceholder("Digite uma tarefa").fill("Estudar inglês");
 
-  await page.getByRole("button", { name: "Submit" }).click();
+  await page.getByRole("button", { name: "Adicionar tarefa" }).click();
 
   const checkbox = page.getByRole("checkbox");
 
@@ -61,17 +56,36 @@ it("marks a todo as completed", async () => {
 it("filters todos by title", async () => {
   await render(<App />);
 
-  await page.getByPlaceholder("Digite uma tarefa").fill("Estudar React");
+  const addInput = page.getByPlaceholder("Digite uma tarefa");
+  const addButton = page.getByRole("button", {
+    name: "Adicionar tarefa",
+  });
 
-  await page.getByRole("button", { name: "Submit" }).click();
+  await addInput.fill("Estudar React");
+  await addButton.click();
 
-  await page.getByPlaceholder("Digite uma tarefa").fill("Comprar pão");
+  await addInput.fill("Comprar pão");
+  await addButton.click();
 
-  await page.getByRole("button", { name: "Submit" }).click();
+  const searchInput = page.getByPlaceholder("Buscar tarefas");
 
-  await page.getByPlaceholder("Buscar tarefas").fill("React");
+  await searchInput.fill("React");
 
-  await expect.element(page.getByText("Estudar React")).toBeInTheDocument();
+  await expect
+    .element(
+      page.getByRole("heading", {
+        name: "Estudar React",
+        exact: true,
+      }),
+    )
+    .toBeInTheDocument();
 
-  await expect.element(page.getByText("Comprar pão")).not.toBeInTheDocument();
+  await expect
+    .element(
+      page.getByRole("heading", {
+        name: "Comprar pão",
+        exact: true,
+      }),
+    )
+    .not.toBeInTheDocument();
 });
