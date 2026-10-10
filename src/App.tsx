@@ -10,7 +10,7 @@ function App() {
   });
   const [task, setTask] = useState<string>("");
   const [search, setSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [description, setDescription] = useState("");
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +103,7 @@ function App() {
         onChangeTitle={(event) => setTask(event.currentTarget.value)}
         onChangeDescription={(event) => setDescription(event.currentTarget.value)}
         isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
       />
     </div>
   );
