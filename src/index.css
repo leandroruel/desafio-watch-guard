@@ -51,6 +51,19 @@
 
     --text-muted: #85899a;
     --success: #c084fc;
+
+    .todo-add {
+      background: #1d1e27;
+    }
+
+    .todo-add:focus-within {
+      background: #242530;
+    }
+
+    .todo-add__button,
+    .todo-add input::placeholder {
+      color: #85899a;
+    }
   }
 }
 
@@ -116,7 +129,82 @@ code {
 
 ul {
   margin: 0;
-  padding: 8px 15px;
+  padding: 0 15px;
+}
+
+.todo-header {
+  padding: 0 15px 0 15px;
+}
+
+.todo-header__brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.todo-header__brand .app-title {
+  margin-right: auto;
+}
+
+.todo-add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 14px;
+  min-height: 54px;
+  background: #f5f5f5;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.todo-add:focus-within {
+  background: var(--surface, #fff);
+  border-color: var(--accent-border, #c084fc);
+  box-shadow: 0 0 0 3px var(--accent-bg, rgba(192, 132, 252, 0.1));
+}
+
+.todo-add__button {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: #a3a3a3;
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.todo-add__button:hover {
+  color: var(--accent, #aa3bff);
+}
+
+.todo-add input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0;
+  color: var(--text-h);
+  background: transparent;
+  border: 0;
+  outline: none;
+  font:
+    400 13px/1.4 "Figtree",
+    sans-serif;
+}
+
+.todo-add input::placeholder {
+  color: #a3a3a3;
+  opacity: 1;
 }
 
 .todo-search {
@@ -124,6 +212,7 @@ ul {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
+  padding: 0.50rem 0.60rem;
 }
 
 .text-muted {
@@ -137,15 +226,12 @@ ul {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 14px;
-
   list-style: none;
   margin-top: 10px;
-
   transition:
     background-color 160ms ease,
     border-color 160ms ease;
@@ -171,7 +257,7 @@ ul {
   background: transparent;
   border: 0;
   cursor: pointer;
-  padding: 0.50rem 0.60rem;
+  padding: 0.5rem 0.6rem;
   border-radius: 100%;
   transition:
     background-color 160ms ease,
