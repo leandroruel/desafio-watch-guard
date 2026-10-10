@@ -1,4 +1,3 @@
-// TodoCard.test.tsx
 import { render } from "vitest-browser-react";
 import { page } from "vitest/browser";
 import { expect, it, vi } from "vitest";
@@ -20,5 +19,19 @@ it("renders the todo information", async () => {
 
   await expect
     .element(page.getByText("chegar cedo na academia às 11h da manhã"))
+    .toBeInTheDocument();
+});
+
+it("renders a completed todo", async () => {
+  await render(
+    <TodoCard
+      todo={{ ...todo, completed: true }}
+      onChangeChecked={vi.fn()}
+      onDelete={vi.fn()}
+    />,
+  );
+
+  await expect
+    .element(page.getByText("Começar academia amanhã"))
     .toBeInTheDocument();
 });
