@@ -14,10 +14,6 @@ function App() {
   const [description, setDescription] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTask(event.target.value);
-  };
-
   const handleChangeChecked = (todo: Todo) => {
     setTodos(
       todos.map((item) => (item.id === todo.id ? { ...item, completed: !item.completed } : item)),
@@ -99,6 +95,7 @@ function App() {
             todo={todo}
             onChangeChecked={handleChangeChecked}
             onDelete={handleDelete}
+            onEdit={handleEditTodo}
           />
         ))}
       </ul>

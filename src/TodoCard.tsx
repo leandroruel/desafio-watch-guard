@@ -5,9 +5,10 @@ type ToDoCardProps = {
   todo: Todo;
   onChangeChecked: (todo: Todo) => void;
   onDelete: (id: number) => void;
+  onEdit: (todo: Todo) => void;
 };
 
-const TodoCard = ({ todo, onChangeChecked, onDelete }: ToDoCardProps) => {
+const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) => {
   return (
     <li className="todo-card" data-testid={`todo-${todo.id}`}>
       <div className="todo-card__container todo-card__container--full">
@@ -21,7 +22,7 @@ const TodoCard = ({ todo, onChangeChecked, onDelete }: ToDoCardProps) => {
             <span className="circle-check__icon" aria-hidden="true"></span>
           </label>
 
-          <h3 className={todo.completed ? "text-muted" : ""}>{todo.title}</h3>
+          <h3 className={todo.completed ? "text-muted" : ""} onClick={() => onEdit(todo)}>{todo.title}</h3>
 
           <button test-id="delete" onClick={() => onDelete(todo.id)}>
             <DeleteIcon />
