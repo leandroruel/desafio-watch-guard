@@ -3,6 +3,7 @@ import { page } from "vitest/browser";
 import { beforeEach, expect, it, vi } from "vitest";
 import App from "./App";
 import TodoCard from "./TodoCard";
+import "./index.css";
 
 beforeEach(async () => {
   localStorage.clear();
@@ -31,6 +32,7 @@ it("deletes a todo", async () => {
       }}
       onChangeChecked={vi.fn()}
       onDelete={onDelete}
+      onEdit={vi.fn()}
     />,
   );
 

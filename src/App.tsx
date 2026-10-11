@@ -88,7 +88,7 @@ function App() {
           Adicionar nova tarefa
         </button>
       </header>
-      <ul>
+      <ul className="todo-card-list">
         {filtered.map((todo) => (
           <TodoCard
             key={todo.id}

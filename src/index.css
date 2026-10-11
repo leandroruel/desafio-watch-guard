@@ -21,6 +21,8 @@
   --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  --grid-width: 1126px;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -68,20 +70,9 @@
   }
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 h1,
@@ -133,10 +124,19 @@ ul {
   padding: 0 15px;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  width: var(--grid-width);
+  height: 100dvh;
+  margin: 0 auto;
+}
+
 .todo-header {
   display: flex;
   flex-direction: column;
   padding: 0 15px 0 15px;
+  flex-shrink: 0;
 }
 
 .todo-header__brand {
@@ -222,6 +222,26 @@ ul {
   color: var(--text-muted);
   opacity: 1;
   text-decoration: line-through;
+}
+
+.todo-card-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width: var(--grid-width);
+  max-width: 100%;
+  min-height: 0;
+  text-align: center;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  list-style: none;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-bg);
+  scrollbar-gutter: stable;
 }
 
 .todo-card {

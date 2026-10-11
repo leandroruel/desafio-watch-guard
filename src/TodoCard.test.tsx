@@ -3,6 +3,7 @@ import { page } from "vitest/browser";
 import { expect, it, vi } from "vitest";
 import TodoCard from "./TodoCard";
 import type { Todo } from "./types";
+import "./index.css";
 
 const todo: Todo = {
   id: 1,
@@ -13,7 +14,7 @@ const todo: Todo = {
 };
 
 it("renders the todo information", async () => {
-  await render(<TodoCard todo={todo} onChangeChecked={vi.fn()} onDelete={vi.fn()} />);
+  await render(<TodoCard todo={todo} onChangeChecked={vi.fn()} onDelete={vi.fn()} onEdit={vi.fn()} />);
 
   await expect.element(page.getByText("Começar academia amanhã")).toBeInTheDocument();
 
@@ -24,7 +25,7 @@ it("renders the todo information", async () => {
 
 it("renders a completed todo", async () => {
   await render(
-    <TodoCard todo={{ ...todo, completed: true }} onChangeChecked={vi.fn()} onDelete={vi.fn()} />,
+    <TodoCard todo={{ ...todo, completed: true }} onChangeChecked={vi.fn()} onDelete={vi.fn()} onEdit={vi.fn()} />,
   );
 
   await expect.element(page.getByText("Começar academia amanhã")).toBeInTheDocument();
