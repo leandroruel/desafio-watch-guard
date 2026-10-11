@@ -245,6 +245,7 @@ ul {
 }
 
 .todo-card__timestamp {
+  display: inline-flex;
   font-size: 0.5rem;
 }
 
@@ -265,6 +266,7 @@ ul {
 .todo-card__details {
   display: grid;
   grid-template-rows: 0fr;
+  width: 100%;
   transition: grid-template-rows 0.25s ease;
 }
 
@@ -274,6 +276,10 @@ ul {
 
 .todo-card__details-inner {
   overflow: hidden;
+}
+
+.todo-card__details-inner p {
+  text-align: left;
 }
 
 .circle-check {

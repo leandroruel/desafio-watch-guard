@@ -60,14 +60,14 @@ const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) =>
               <p className={todo.completed ? "text-muted" : ""}>
                 {todo.description || "Sem descrição"}
               </p>
+              <div className="todo-card__footer">
+                <span className="todo-card__timestamp" title={`Criado em: ${timestamp}`}>
+                  {timestamp}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <footer className="todo-card__footer">
-          <span className="todo-card__timestamp" title={`Criado em: ${timestamp}`}>
-            {timestamp}
-          </span>
-        </footer>
       </div>
     </li>
   );
