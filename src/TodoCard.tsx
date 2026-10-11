@@ -12,6 +12,10 @@ type ToDoCardProps = {
 
 const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) => {
   const [expanded, setExpanded] = useState(false);
+  const timestamp = new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: "full",
+  }).format(todo.created_at);
+
   return (
     <li className="todo-card" data-testid={`todo-${todo.id}`}>
       <div className="todo-card__container todo-card__container--full">
@@ -59,6 +63,11 @@ const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) =>
             </div>
           </div>
         </div>
+        <footer className="todo-card__footer">
+          <span className="todo-card__timestamp" title={`Criado em: ${timestamp}`}>
+            {timestamp}
+          </span>
+        </footer>
       </div>
     </li>
   );
