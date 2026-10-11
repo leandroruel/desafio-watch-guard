@@ -12,29 +12,10 @@ function App() {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(true);
   const [description, setDescription] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTask(event.target.value);
-  };
-
-  const handleFormSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (task.trim().length === 0) {
-      alert("Please enter a value!");
-      return;
-    }
-
-    const todo: Todo = {
-      id: Date.now(),
-      title: task.trim(),
-      description: "",
-      created_at: Date.now(),
-      completed: false,
-    };
-
-    setTodos([todo, ...todos]);
-    setTask("");
   };
 
   const handleChangeChecked = (todo: Todo) => {
@@ -47,6 +28,42 @@ function App() {
     const index = todos.findIndex((todo) => todo.id === id);
     todos.splice(index, 1);
     setTodos([...todos]);
+  };
+
+  const handleEditTodo = (todo: Todo) => {
+    setTask(todo.title);
+    setDescription(todo.description || "");
+    setEditingId(todo.id);
+    setIsOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!task.trim()) return;
+
+    if (editingId !== null) {
+      setTodos(
+        todos.map((todo) => (todo.id === editingId ? { ...todo, title: task, description } : todo)),
+      );
+    } else {
+      const newTodo: Todo = {
+        id: Date.now(),
+        title: task,
+        description,
+        created_at: Date.now(),
+        completed: false,
+      };
+
+      setTodos([...todos, newTodo]);
+    }
+
+    handleCloseComposer();
+  };
+
+  const handleCloseComposer = () => {
+    setIsOpen(false);
+    setTask("");
+    setDescription("");
+    setEditingId(null);
   };
 
   const filtered = todos.filter((todo) => todo.title.toLowerCase().includes(search.toLowerCase()));
@@ -71,20 +88,9 @@ function App() {
           />
         </div>
 
-        <form className="todo-add" onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            name="task"
-            id="task-title"
-            value={task}
-            onChange={handleInput}
-            placeholder="Digite uma tarefa"
-            aria-label="Nova tarefa"
-          />
-          <button type="submit" className="todo-add__button" aria-label="Adicionar tarefa">
-            +
-          </button>
-        </form>
+        <button type="button" className="todo-create" onClick={() => setIsOpen(true)}>
+          Adicionar nova tarefa
+        </button>
       </header>
       <ul>
         {filtered.map((todo) => (
@@ -103,7 +109,8 @@ function App() {
         onChangeTitle={(event) => setTask(event.currentTarget.value)}
         onChangeDescription={(event) => setDescription(event.currentTarget.value)}
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleCloseComposer}
+        onSave={handleSave}
       />
     </div>
   );

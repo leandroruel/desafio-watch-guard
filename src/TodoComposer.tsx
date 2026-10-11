@@ -7,6 +7,7 @@ type TodoComposerProps = {
   onChangeDescription: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isOpen: boolean;
   onClose: () => void;
+  onSave: () => void;
 };
 
 const TodoComposer = ({
@@ -15,7 +16,8 @@ const TodoComposer = ({
   onChangeTitle,
   onChangeDescription,
   isOpen,
-  onClose
+  onClose,
+  onSave,
 }: TodoComposerProps) => {
   return (
     <div className={`todo-composer ${isOpen ? "" : "todo-compose--hidden"}`} aria-hidden={!isOpen}>
@@ -37,10 +39,20 @@ const TodoComposer = ({
           onChange={onChangeDescription}
         ></textarea>
         <footer className="todo-composer__actions">
-          <button type="button" className="todo-compose__cancel" aria-label="Cancelar" onClick={onClose}>
+          <button
+            type="button"
+            className="todo-compose__cancel"
+            aria-label="Cancelar"
+            onClick={onClose}
+          >
             Cancelar
           </button>
-          <button type="submit" className="todo-compose__submit" aria-label="Adicionar tarefa">
+          <button
+            type="button"
+            className="todo-compose__submit"
+            aria-label="Adicionar tarefa"
+            onClick={onSave}
+          >
             Add
           </button>
         </footer>
