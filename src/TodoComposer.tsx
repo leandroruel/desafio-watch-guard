@@ -1,4 +1,5 @@
 import type React from "react";
+import { useEffect, useRef } from "react";
 
 type TodoComposerProps = {
   title: string;
@@ -19,10 +20,19 @@ const TodoComposer = ({
   onClose,
   onSave,
 }: TodoComposerProps) => {
+  const titleRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      titleRef.current?.focus();
+    }
+  }, [isOpen]);
+
   return (
     <div className={`todo-composer ${isOpen ? "" : "todo-compose--hidden"}`} aria-hidden={!isOpen}>
       <div className="todo-composer__container">
         <input
+          ref={titleRef}
           type="text"
           name="title"
           placeholder="Digite o título"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TodoCard from "./TodoCard";
 import type { Todo } from "./types";
 import TodoComposer from "./TodoComposer";
@@ -10,7 +10,7 @@ function App() {
   });
   const [task, setTask] = useState<string>("");
   const [search, setSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
 

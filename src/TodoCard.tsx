@@ -1,5 +1,7 @@
 import type { Todo } from "./types";
 import DeleteIcon from "./icons/DeleteIcon";
+import { useState } from "react";
+import EditIcon from "./icons/EditIcon";
 
 type ToDoCardProps = {
   todo: Todo;
@@ -9,10 +11,11 @@ type ToDoCardProps = {
 };
 
 const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) => {
+  const [expanded, setExpanded] = useState(false);
   return (
     <li className="todo-card" data-testid={`todo-${todo.id}`}>
       <div className="todo-card__container todo-card__container--full">
-        <div className="todo-card__row todo-card__title">
+        <header className="todo-card__row todo-card__header">
           <label className="circle-check">
             <input
               type="checkbox"
@@ -22,16 +25,38 @@ const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) =>
             <span className="circle-check__icon" aria-hidden="true"></span>
           </label>
 
-          <h3 className={todo.completed ? "text-muted" : ""} onClick={() => onEdit(todo)}>{todo.title}</h3>
+          <h3 className={todo.completed ? "text-muted" : ""}>
+            <button
+              type="button"
+              className="todo-card__toggle"
+              aria-expanded={expanded}
+              onClick={() => setExpanded((prev) => !prev)}
+            >
+              {todo.title}
+            </button>
+          </h3>
+
+          <button
+            type="button"
+            aria-label="Editar tarefa"
+            data-testid="edit"
+            onClick={() => onEdit(todo)}
+          >
+            <EditIcon />
+          </button>
 
           <button test-id="delete" onClick={() => onDelete(todo.id)}>
             <DeleteIcon />
           </button>
-        </div>
+        </header>
         <div className="todo-card__row">
-          {todo.description && (
-            <p className={todo.completed ? "text-muted" : ""}>{todo.description}</p>
-          )}
+          <div className={`todo-card__details ${expanded ? "todo-card__details--open" : ""}`}>
+            <div className="todo-card__details-inner">
+              <p className={todo.completed ? "text-muted" : ""}>
+                {todo.description || "Sem descrição"}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </li>

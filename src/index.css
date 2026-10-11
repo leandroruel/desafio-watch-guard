@@ -5,6 +5,7 @@
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
+  --border-radius: 5px;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
@@ -133,6 +134,8 @@ ul {
 }
 
 .todo-header {
+  display: flex;
+  flex-direction: column;
   padding: 0 15px 0 15px;
 }
 
@@ -280,10 +283,38 @@ ul {
   display: flex;
 }
 
-.todo-card__title {
+.todo-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.todo-card__title {
+  cursor: pointer;
+}
+
+.todo-card__toggle {
+  background: none !important;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.todo-card__details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.todo-card__details--open {
+  grid-template-rows: 1fr;
+}
+
+.todo-card__details-inner {
+  overflow: hidden;
 }
 
 .circle-check {
@@ -347,17 +378,256 @@ ul {
   transform: scale(1.08);
 }
 
+.todo-create {
+  display: inline-flex;
+  margin: 0 auto 0 0;
+  padding: 8px 10px;
+  background-color: var(--accent-bg);
+  border-radius: var(--border-radius);
+  border: var(--border);
+}
+
 .todo-composer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 400px;
-  padding: 0.5rem;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px;
+  box-sizing: border-box;
+  background: rgba(8, 6, 13, 0.42);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: composer-overlay-in 180ms ease-out;
+}
+
+.todo-compose--hidden {
+  display: none;
+}
+
+.todo-composer__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 28px;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.16),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+  animation: composer-card-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.todo-composer__task-title,
+.todo-composer__task-description {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--text-h);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  font-family: "Figtree", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.todo-composer__task-title {
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.todo-composer__task-description {
+  min-height: 140px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.todo-composer__task-title::placeholder,
+.todo-composer__task-description::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+  font-weight: 400;
+}
+
+.todo-composer__task-title,
+.todo-composer__task-description {
+  border-color: var(--accent-border);
+}
+
+.todo-composer__task-title,
+.todo-composer__task-description {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.todo-composer__task-title,
+.todo-composer__task-description {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--text-h);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  font-family: "Figtree", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.todo-composer__task-title {
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.todo-composer__task-description {
+  min-height: 140px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.todo-composer__task-title::placeholder,
+.todo-composer__task-description::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+  font-weight: 400;
+}
+
+.todo-composer__task-title,
+.todo-composer__task-description {
+  border-color: var(--accent-border);
+}
+
+.todo-composer__task-title,
+.todo-composer__task-description {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.todo-composer__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.todo-composer__heading h2 {
+  margin: 0;
+  font-family: "Figtree", sans-serif;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.6px;
+  color: var(--text-h);
+}
+
+.todo-composer__heading p {
+  font-family: "Figtree", sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.todo-composer__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.todo-composer__actions button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 9px;
+  font-family: "Figtree", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #6b6b6b;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+  transform: translateY(-1px);
+}
+
+.todo-composer__actions button:hover {
+  background-color: #7b7b7b;
+}
+
+.todo-composer__actions .todo-composer__cancel {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.todo-composer__actions .todo-composer__cancel {
+  background: var(--surface-hover);
+}
+
+.todo-composer__actions .todo-composer__submit {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.todo-composer__actions .todo-composer__submit {
+  filter: brightness(1.06);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .circle-check__icon,
   .circle-check__icon::after {
     transition: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .todo-composer {
+    padding: 16px;
+  }
+
+  .todo-composer__container {
+    gap: 16px;
+    max-height: calc(100dvh - 32px);
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .todo-composer__heading h2 {
+    font-size: 20px;
+  }
+
+  .todo-composer__task-description {
+    min-height: 120px;
   }
 }
