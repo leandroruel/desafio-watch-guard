@@ -113,10 +113,16 @@ ul {
 
 .app {
   display: flex;
-  flex-direction: column;
-  width: var(--grid-width);
+  max-width: var(--grid-width);
   height: 100dvh;
   margin: 0 auto;
+}
+
+.app__layout {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: 100%;
 }
 
 .todo-header {

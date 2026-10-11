@@ -70,45 +70,47 @@ function App() {
 
   return (
     <div className="app">
-      <header className="todo-header">
-        <div className="todo-header__brand">
-          <div className="app-title">
-            <h4>My Todo List</h4>
+      <div className="app__layout">
+        <header className="todo-header">
+          <div className="todo-header__brand">
+            <div className="app-title">
+              <h4>My Todo List</h4>
+            </div>
+            <input
+              type="search"
+              placeholder="Buscar tarefas"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              className="todo-search"
+            />
           </div>
-          <input
-            type="search"
-            placeholder="Buscar tarefas"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            className="todo-search"
-          />
-        </div>
 
-        <button type="button" className="todo-create" onClick={() => setIsOpen(true)}>
-          Adicionar nova tarefa
-        </button>
-      </header>
-      <ul className="todo-card-list">
-        {filtered.map((todo) => (
-          <TodoCard
-            key={todo.id}
-            todo={todo}
-            onChangeChecked={handleChangeChecked}
-            onDelete={handleDelete}
-            onEdit={handleEditTodo}
-          />
-        ))}
-      </ul>
+          <button type="button" className="todo-create" onClick={() => setIsOpen(true)}>
+            Adicionar nova tarefa
+          </button>
+        </header>
+        <ul className="todo-card-list">
+          {filtered.map((todo) => (
+            <TodoCard
+              key={todo.id}
+              todo={todo}
+              onChangeChecked={handleChangeChecked}
+              onDelete={handleDelete}
+              onEdit={handleEditTodo}
+            />
+          ))}
+        </ul>
 
-      <TodoComposer
-        title={task}
-        description={description}
-        onChangeTitle={(event) => setTask(event.currentTarget.value)}
-        onChangeDescription={(event) => setDescription(event.currentTarget.value)}
-        isOpen={isOpen}
-        onClose={handleCloseComposer}
-        onSave={handleSave}
-      />
+        <TodoComposer
+          title={task}
+          description={description}
+          onChangeTitle={(event) => setTask(event.currentTarget.value)}
+          onChangeDescription={(event) => setDescription(event.currentTarget.value)}
+          isOpen={isOpen}
+          onClose={handleCloseComposer}
+          onSave={handleSave}
+        />
+      </div>
     </div>
   );
 }

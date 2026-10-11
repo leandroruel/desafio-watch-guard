@@ -39,6 +39,7 @@ const TodoComposer = ({
           value={title}
           className="todo-composer__task-title"
           onChange={onChangeTitle}
+          required
         />
         <textarea
           name="description"
