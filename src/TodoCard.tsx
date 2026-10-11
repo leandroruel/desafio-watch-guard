@@ -16,10 +16,11 @@ const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) =>
     <li className="todo-card" data-testid={`todo-${todo.id}`}>
       <div className="todo-card__container todo-card__container--full">
         <header className="todo-card__row todo-card__header">
-          <label className="circle-check">
+          <label className="circle-check" data-testid="todo-checkbox">
             <input
               type="checkbox"
               checked={todo.completed}
+              aria-label={`Concluir ${todo.title}`}
               onChange={() => onChangeChecked(todo)}
             />
             <span className="circle-check__icon" aria-hidden="true"></span>
@@ -45,7 +46,7 @@ const TodoCard = ({ todo, onChangeChecked, onDelete, onEdit }: ToDoCardProps) =>
             <EditIcon />
           </button>
 
-          <button test-id="delete" onClick={() => onDelete(todo.id)}>
+          <button test-id="delete" aria-label="Excluir tarefa" onClick={() => onDelete(todo.id)}>
             <DeleteIcon />
           </button>
         </header>
